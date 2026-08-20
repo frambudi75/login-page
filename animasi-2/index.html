@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login — NexusID</title>
+  <meta name="description" content="Halaman login premium NexusID dengan desain Neon Noir cyberpunk, split layout, dan animasi interaktif." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Matrix rain canvas -->
+  <canvas id="matrix-canvas"></canvas>
+
+  <div class="page-wrapper">
+
+    <!-- ── LEFT PANEL ───────────────────────────── -->
+    <aside class="left-panel" aria-hidden="true">
+      <div class="left-bg"></div>
+      <div class="left-noise"></div>
+
+      <!-- Scan lines overlay -->
+      <div class="scanlines"></div>
+
+      <!-- Top badge -->
+      <div class="lp-badge">
+        <span class="badge-dot"></span>
+        <span class="badge-text">SISTEM AKTIF</span>
+      </div>
+
+      <!-- Center content -->
+      <div class="lp-center">
+        <div class="hex-ring">
+          <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="hex-svg">
+            <defs>
+              <linearGradient id="hexGrad" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#00f5c8"/>
+                <stop offset="100%" stop-color="#0099ff"/>
+              </linearGradient>
+            </defs>
+            <path class="hex-path" d="M60 8L107 34V86L60 112L13 86V34L60 8Z" stroke="url(#hexGrad)" stroke-width="1.5" fill="none"/>
+            <path class="hex-path-inner" d="M60 24L95 44V84L60 104L25 84V44L60 24Z" stroke="url(#hexGrad)" stroke-width="0.8" fill="none" opacity="0.4"/>
+            <circle cx="60" cy="60" r="18" fill="url(#hexGrad)" opacity="0.15"/>
+            <path d="M52 60L58 66L68 54" stroke="url(#hexGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <!-- Rotating rings -->
+          <div class="ring ring-1"></div>
+          <div class="ring ring-2"></div>
+        </div>
+
+        <h2 class="lp-title">NEXUS<span>ID</span></h2>
+        <p class="lp-tagline">
+          <span class="typing-text" id="typing-text"></span>
+          <span class="cursor-blink">|</span>
+        </p>
+
+        <!-- Stats bar -->
+        <div class="stats-row">
+          <div class="stat">
+            <span class="stat-num" data-target="99.9">0</span><span class="stat-unit">%</span>
+            <span class="stat-label">Uptime</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <span class="stat-num" data-target="256">0</span><span class="stat-unit">bit</span>
+            <span class="stat-label">Enkripsi</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <span class="stat-num" data-target="12">0</span><span class="stat-unit">ms</span>
+            <span class="stat-label">Latensi</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom info -->
+      <div class="lp-footer">
+        <div class="lp-grid-lines"></div>
+        <p class="lp-footer-text">© 2026 NexusID Corp · Semua hak dilindungi</p>
+      </div>
+    </aside>
+
+    <!-- ── RIGHT PANEL (Form) ────────────────────── -->
+    <main class="right-panel" role="main">
+      <!-- Glow blob -->
+      <div class="form-glow"></div>
+
+      <div class="form-container" id="form-container">
+
+        <!-- Logo mobile (hidden on desktop) -->
+        <div class="mobile-brand">
+          <span class="mobile-brand-text">NEXUS<span>ID</span></span>
+        </div>
+
+        <!-- Header -->
+        <div class="form-header">
+          <div class="form-tag">
+            <span class="tag-icon">⬡</span>
+            <span>AUTENTIKASI PENGGUNA</span>
+          </div>
+          <h1 class="form-title">Selamat Datang</h1>
+          <p class="form-subtitle">Masukkan kredensial Anda untuk mengakses sistem</p>
+        </div>
+
+        <!-- Form -->
+        <form class="login-form" id="login-form" novalidate>
+
+          <!-- Username/Email -->
+          <div class="field-group" id="fg-email">
+            <label class="field-label" for="email">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              ID Pengguna
+            </label>
+            <div class="input-wrap">
+              <input type="email" id="email" name="email" class="neo-input" placeholder="nama@nexusid.com" autocomplete="email" required />
+              <div class="input-border-anim"></div>
+              <span class="input-status" id="email-status" aria-hidden="true"></span>
+            </div>
+            <span class="field-msg" id="email-msg" role="alert" aria-live="polite"></span>
+          </div>
+
+          <!-- Password -->
+          <div class="field-group" id="fg-pass">
+            <label class="field-label" for="password">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              Kata Sandi
+            </label>
+            <div class="input-wrap">
+              <input type="password" id="password" name="password" class="neo-input" placeholder="••••••••••" autocomplete="current-password" required />
+              <div class="input-border-anim"></div>
+              <button type="button" class="eye-btn" id="eye-btn" aria-label="Toggle password visibility">
+                <svg class="eye-open" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg class="eye-close" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              </button>
+              <span class="input-status" id="pass-status" aria-hidden="true"></span>
+            </div>
+            <span class="field-msg" id="pass-msg" role="alert" aria-live="polite"></span>
+          </div>
+
+          <!-- Password strength bar -->
+          <div class="strength-wrap" id="strength-wrap">
+            <div class="strength-bar">
+              <div class="strength-fill" id="strength-fill"></div>
+            </div>
+            <span class="strength-label" id="strength-label">Kekuatan sandi</span>
+          </div>
+
+          <!-- Options -->
+          <div class="options-row">
+            <label class="neo-checkbox" for="remember">
+              <input type="checkbox" id="remember" name="remember" />
+              <span class="check-box" aria-hidden="true">
+                <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="check-label">Ingat saya</span>
+            </label>
+            <a href="#" class="lupa-link" id="lupa-link">Lupa sandi?</a>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="btn-submit" id="btn-submit" aria-label="Masuk ke sistem">
+            <span class="btn-content">
+              <span class="btn-txt">MASUK</span>
+              <svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </span>
+            <span class="btn-loading" aria-hidden="true">
+              <svg class="spin" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10" opacity="0.2"/><path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/></svg>
+              <span>Memverifikasi...</span>
+            </span>
+            <div class="btn-glare"></div>
+          </button>
+
+          <!-- Divider -->
+          <div class="or-divider" aria-hidden="true">
+            <span></span><em>atau</em><span></span>
+          </div>
+
+          <!-- Social -->
+          <div class="social-grid">
+            <button type="button" class="btn-soc" id="btn-google" aria-label="Masuk dengan Google">
+              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+              Google
+            </button>
+            <button type="button" class="btn-soc" id="btn-ms" aria-label="Masuk dengan Microsoft">
+              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="#f25022" d="M1 1h10v10H1z"/><path fill="#00a4ef" d="M13 1h10v10H13z"/><path fill="#7fba00" d="M1 13h10v10H1z"/><path fill="#ffb900" d="M13 13h10v10H13z"/></svg>
+              Microsoft
+            </button>
+          </div>
+
+          <!-- Register -->
+          <p class="register-row">
+            Belum punya akun?&nbsp;
+            <a href="#" class="register-link" id="register-link">Daftar sekarang →</a>
+          </p>
+
+        </form>
+      </div>
+
+      <!-- Security badge -->
+      <div class="security-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>Koneksi terenkripsi SSL/TLS 256-bit</span>
+      </div>
+    </main>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
